@@ -127,12 +127,11 @@ ul li {
   border-radius: 8px;
 }
 .team h3 {
-  font-family: "Lato", sans-serif;
   padding: 5px 5px 5px 10px;
   font-size: 18px;
   font-weight: normal;
   border: 1px solid #333;
-  background: #111;
+  background: #0a0a0a;
   margin: 14px 0 0 0;
 }
 .team-tank, .team-heal, .team-dps {
@@ -178,40 +177,4 @@ span.character-name {
   width: 140px;
 }
 
-.warrior {
-  color: #c79c6e;
-}
-.paladin {
-  color: #f58cba;
-}
-.hunter {
-  color: #abd473;
-}
-.rogue {
-  color: #fff569;
-}
-.priest {
-  color: #ffffff;
-}
-.death-knight {
-  color: #c41f3b;
-}
-.shaman {
-  color: #0070de;
-}
-.mage {
-  color: #69ccf0;
-}
-.warlock {
-  color: #9482c9;
-}
-.monk {
-  color: #00ff96;
-}
-.druid {
-  color: #ff7d0a;
-}
-.demon-hunter {
-  color: #a330c9;
-}
 </style>
