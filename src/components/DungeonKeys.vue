@@ -1,21 +1,6 @@
 <template>
   <div class="grid">
     <div class="weekly-affixes">{{ getCurrentAffixes() }}</div>
-    <ul class="keys">
-      <li
-        v-for="key in keys"
-        v-bind:key="key.id"
-        draggable=""
-        @dragstart="onDrag($event, key)"
-      >
-        <span
-          class="character-name"
-          v-bind:class="key.mapping.characterClass.replace(' ', '-').toLowerCase()"
-          >{{ key.mapping.replacement }}</span
-        >
-        {{ key.dungeonName }} {{ key.keyLevel }}
-      </li>
-    </ul>
     <div class="team-group">
       <div class="team" v-for="team in teams" v-bind:key="team">
         <h3>Team {{ team }}</h3>
@@ -37,10 +22,35 @@
       </div>
       <button @click='addTeam()'>Add a Team</button>
     </div>
+    <ul class="keys">
+      <li
+        v-for="key in keys"
+        v-bind:key="key.id"
+        draggable=""
+        @dragstart="onDrag($event, key)"
+      >
+        <span
+          class="character-name"
+          v-bind:class="key.mapping.characterClass.replace(' ', '-').toLowerCase()"
+          >{{ key.mapping.replacement }}</span
+        >
+        {{ key.dungeonName }} {{ key.keyLevel }}
+      </li>
+    </ul>
+    <div class="rotation-schedule">
+      <div>
+        <div class="week">week</div>
+        <div class="affixes">affixes</div>
+      </div>
+      <div v-for="week in keySchedule" v-bind:key="week.rotationWeek" v-bind:class="getCurrentWeekStyle(week)">
+          <div class="week">{{ week.rotationWeek }}</div>
+          <div class="affixes">{{ week.affixes }}</div>
+      </div>
+    </div>
   </div>
 </template>
 
-<script>
+<script>``
 import store from "../data/store";
 import DungeonTeamMember from "./DungeonTeamMember"
 import { mapState } from "vuex";
@@ -52,7 +62,7 @@ export default {
   },
 
   store,
-  computed: mapState(["keys", "lookups", "teams"]),
+  computed: mapState(["keys", "lookups", "teams", "keySchedule", "currentAffixes"]),
   methods: {
     getCharacterClassStyle: function (key) {
       var lookup = this.lookups.find((l) => l.nickname === key.characterName);
@@ -60,8 +70,11 @@ export default {
         ? ""
         : lookup.characterClass.replace(" ", "-").toLowerCase();
     },
+    getCurrentWeekStyle: function (week) {
+      return (this.getCurrentAffixes() === week.affixes) ? "current" : ""
+    },
     getCurrentAffixes: function () {
-      return this.keys[0] ? this.keys[0].affixes : "";
+      return (this.currentAffixes) ? this.currentAffixes.affixes : ""
     },
     onDrag: function (event, key) {
       event.dataTransfer.setData("keyId", key.id)
@@ -83,6 +96,7 @@ export default {
   },
   mounted: function () {
     this.$store.dispatch("getAllKeys");
+    this.$store.commit("getSavedTeams");
   },
 };
 </script>
@@ -105,12 +119,33 @@ ul li {
   display: grid;
   grid-template-areas: 
     "header header"
-    "keys teams";
-  grid-template-columns: 50% 50%;
+    "teams teams"
+    "keys schedule";
+  grid-template-columns: 60% 40%;
   grid-template-rows: auto;
 }
 .keys {
   grid-area: keys ;
+}
+.rotation-schedule {
+  grid-area: schedule;
+  margin-left: 40px;
+}
+.rotation-schedule > div {
+  padding: 2px 8px;
+  border: 1px solid #000;
+  background-color: #222;
+}
+.rotation-schedule .current {
+  background-color: #548;
+}
+.rotation-schedule .week {
+  display: inline-block;
+  width: 48px;
+}
+.rotation-schedule .affixes {
+  grid-area: affixes;
+  display: inline-block;
 }
 .team-group {
   margin-left: 20px;

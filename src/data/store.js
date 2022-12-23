@@ -9,7 +9,20 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     keys: [],
-    teams: []
+    teams: [],
+    keySchedule: [
+      { rotationWeek: 1, affixes: "Fortified, Raging, Quaking, Thundering" },
+      { rotationWeek: 2, affixes: "Tyrannical, Bursting, Grievous, Thundering" },
+      { rotationWeek: 3, affixes: "Fortified, Sanguine, Volcanic, Thundering" },
+      { rotationWeek: 4, affixes: "Tyrannical, Raging, Storming, Thundering" },
+      { rotationWeek: 5, affixes: "Fortified, Spiteful, Grievous, Thundering" },
+      { rotationWeek: 6, affixes: "Tyrannical, Sanguine, Explosive, Thundering" },
+      { rotationWeek: 7, affixes: "Fortified, Bolstering, Storming, Thundering" },
+      { rotationWeek: 8, affixes: "Tyrannical, Spiteful, Quaking, Thundering" },
+      { rotationWeek: 9, affixes: "Fortified, Bursting, Explosive, Thundering" },
+      { rotationWeek: 10, affixes: "Tyrannical, Bolstering, Volcanic, Thundering" },
+    ],
+    currentAffixes: {}
   },
 
   mutations: {
@@ -21,6 +34,9 @@ export default new Vuex.Store({
     clearTeamRole(state, payload) {
       var matches = state.keys.filter(k => k.team === payload.team && k.role === payload.role)
       matches.forEach(k => { k.team = null; k.role = '' })
+    },
+    setAffixes(state, payload) {
+      state.currentAffixes = payload.data;
     },
     addKey(state, payload) {
       state.keys.push({...payload, team: null, role: '' })
@@ -43,11 +59,18 @@ export default new Vuex.Store({
     },
     addTeam(state) {
       state.teams.push(state.teams.length + 1)
+      //localStorage.dungeonTeams = state.teams
     },
     updateTeam(state, payload) {
       var key = state.keys.find(k => k.id === payload.id)
       key.team = payload.team
       key.role = payload.role 
+
+      //localStorage.dungeonTeams = state.teams
+    },
+    getSavedTeams(state) {
+      //if (localStorage.dungeonTeams) { state.teams = localStorage.dungeonTeams}
+      
     }
   },
 
@@ -55,6 +78,15 @@ export default new Vuex.Store({
   actions: {
     getAllKeys(context) {
       context.commit('clearData')
+
+      keys.getAffixesForCurrentWeek()
+        .then(result => {
+          context.commit('setAffixes', result)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    
 
       keys.getAllKeysForCurrentWeek()
         .then(result => {

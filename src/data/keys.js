@@ -5,6 +5,10 @@ import config from './config'
 export default {
   apiRoot: config.apiRoot,
 
+  getAffixesForCurrentWeek() {
+    return axios.get(this.apiRoot + '/api/affixes')
+  },
+
   getAllKeysForCurrentWeek() {
     return axios.get(this.apiRoot + '/api/keys')
   },
