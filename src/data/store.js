@@ -12,7 +12,7 @@ export default new Vuex.Store({
     teams: [],
     keySchedule: [
       { rotationWeek: 1, affixes: "Tyrannical, Storming, Raging" },
-      { rotationWeek: 2, affixes: "Fortified, ??, ??" },
+      { rotationWeek: 2, affixes: "Fortified, Entangling, Bolstering" },
       { rotationWeek: 3, affixes: "Tyrannical, ??, ??" },
       { rotationWeek: 4, affixes: "Fortified, ??, ??" },
       { rotationWeek: 5, affixes: "Tyrannical,, ??, ??" },
