@@ -14,7 +14,7 @@ export default new Vuex.Store({
       { rotationWeek: 1, affixes: "Tyrannical, Storming, Raging" },
       { rotationWeek: 2, affixes: "Fortified, Entangling, Bolstering" },
       { rotationWeek: 3, affixes: "Tyrannical, Incorporeal, Spiteful" },
-      { rotationWeek: 4, affixes: "Fortified, ??, ??" },
+      { rotationWeek: 4, affixes: "Fortified, Afflicted, Raging" },
       { rotationWeek: 5, affixes: "Tyrannical,, ??, ??" },
       { rotationWeek: 6, affixes: "Fortified, ??, ??" },
       { rotationWeek: 7, affixes: "Tyrannical, ??, ??" },
